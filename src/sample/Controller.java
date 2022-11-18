@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -15,29 +14,28 @@ import javafx.scene.layout.GridPane;
 
 public class Controller{
 
+    /*
+    Generics variables containing the list of years and months
+     */
     @FXML
     ListView<Integer> monthList = new ListView<Integer>();
     ObservableList<Integer> months = FXCollections.observableArrayList();
 
 
     @FXML
-    private ListView<Integer> yearList = new ListView<Integer>();
+    ListView<Integer> yearList = new ListView<Integer>();
     ObservableList<Integer> years = FXCollections.observableArrayList();
 
-    @FXML
-    private Button setMonth;
-
-    @FXML
-    private Button setYear;
 
     @FXML
     private GridPane days;
 
     final int DAYS_IN_WEEK = 7;
     final int MAX_WEEKS = 6;
+    final int NUMBER_OF_MONTH = 12;
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
-    final int BUTTON_SIZE = 70;
+    final int BUTTON_SIZE = 80;
 
     int currentMonth;
     int currentYear;
@@ -114,7 +112,7 @@ public class Controller{
 
     private void initializeMonthsList()
     {
-        for (int i = 1 ; i <= 12 ; i++ )
+        for (int i = 1 ; i <= NUMBER_OF_MONTH ; i++ )
         {
             months.add(i);
         }
@@ -134,7 +132,7 @@ public class Controller{
             for (int j = 0; j < dayBtns[0].length ; j++)
             {
                 dayBtns[i][j] = new Button();
-                dayBtns[i][j].setPrefSize (100,100);
+                dayBtns[i][j].setPrefSize (BUTTON_SIZE,BUTTON_SIZE);
                 dayBtns[i][j].setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent actionEvent) {
