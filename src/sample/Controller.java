@@ -32,7 +32,7 @@ public class Controller{
     private GridPane days;
 
     final int DAYS_IN_WEEK = 7;
-    final int MAx_WEEKS = 6;
+    final int MAX_WEEKS = 6;
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
     int currentMonth;
@@ -49,7 +49,7 @@ public class Controller{
 
     }
 
-    Button  [][] dayBtns = new Button[MAx_WEEKS][DAYS_IN_WEEK];
+    Button  [][] dayBtns = new Button[MAX_WEEKS][DAYS_IN_WEEK];
 
     CalendarLogic calendar = new CalendarLogic();
 
@@ -60,15 +60,7 @@ public class Controller{
         monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
         initializeDays();
-        updateDays();
 
-        System.out.println("first WEEK-day of th month:");
-        System.out.println(calendar.getFirstNumberOfDayInMonth());
-        calendar.getYear();
-        calendar.getMonth();
-        calendar.getWeekOfMonth();
-        calendar.getDayOfWeek();
-        calendar.getDayOfMonth();
 
 
 
@@ -78,15 +70,20 @@ public class Controller{
                 currentYear =  yearList.getSelectionModel().getSelectedItem();
                 System.out.println(currentYear);
                 calendar.setYear(currentYear);
+                updateDays();
             }
         });
 
+        /*
+        substract 1 in month because calender months start with 0 to 5 (May) will be in index 4 (but still May)
+         */
         monthList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
                 currentMonth =  monthList.getSelectionModel().getSelectedItem();
                 System.out.println(currentMonth);
-                calendar.setMonth(currentMonth);
+                calendar.setMonth(currentMonth - 1);
+                updateDays();
             }
         });
     }
@@ -112,7 +109,7 @@ public class Controller{
     {
         initializeButtons();
         addButtonsToGridPane();
-
+        updateDays();
     }
 
     public void initializeButtons()
@@ -127,6 +124,7 @@ public class Controller{
         }
     }
 
+
     public void addButtonsToGridPane()
     {
         for (int i = 0; i < dayBtns.length ; i++ )
@@ -140,12 +138,14 @@ public class Controller{
 
     /*
     Update the number of days on the calendar table
+     substract 1 because day number 1 should be in index 0 in the table
      */
     public void updateDays()
     {
+        removeDaysFromTable();
+        printStatus();
         int row = 0;
-        int column = calendar.getFirstNumberOfDayInMonth();
-
+        int column = (calendar.getFirstNumberOfDayInMonth()-1);
         for (int i = 1 ; i <= calendar.getNumberOfDays() ; i++)
         {
             dayBtns[row][column].setText(i + "");
@@ -156,5 +156,32 @@ public class Controller{
                 row++;
             }
         }
+    }
+
+    /*
+    Remove the number of days from the table before update it
+     */
+    public void removeDaysFromTable()
+    {
+        for (int i = 0; i < dayBtns.length ; i++ )
+        {
+            for (int j = 0; j < dayBtns[0].length ; j++)
+            {
+                dayBtns[i][j].setText("");
+            }
+        }
+    }
+
+    public void printStatus()
+    {
+        System.out.println(
+                "The month is: " + (calendar.getMonth()+1) +
+                        "\nThe year is: " + calendar.getYear() +
+                "\nThe date is: " + (calendar.getMonth()+1) + "." + calendar.getYear()
+                // + "\n the first day week on this month is: " + calendar.getFirstNumberOfDayInMonth()
+
+
+
+        );
     }
 }
