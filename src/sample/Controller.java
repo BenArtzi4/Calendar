@@ -8,19 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller{
-
-    @FXML
-    private Canvas cnv;
 
     @FXML
     ListView<Integer> monthList = new ListView<Integer>();
@@ -36,6 +35,9 @@ public class Controller{
 
     @FXML
     private Button setYear;
+
+    @FXML
+    private GridPane days;
 
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
@@ -53,6 +55,8 @@ public class Controller{
 
     }
 
+    Button  [][] dayBtn = new Button[6][7];
+
     CalendarLogic calendar = new CalendarLogic();
 
     public void initialize()
@@ -61,6 +65,7 @@ public class Controller{
         initializeMonthsList();
         monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
+        initializeDays();
 
 
         yearList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
@@ -96,6 +101,17 @@ public class Controller{
         for (int i = 1 ; i <= 12 ; i++ )
         {
             months.add(i);
+        }
+    }
+
+    public void initializeDays()
+    {
+        for (int i = 0 ; i < dayBtn.length ; i++ )
+        {
+            for (int j = 0 ; j < dayBtn[0].length ; j++)
+            {
+                dayBtn[i][j] = new Button();
+            }
         }
     }
 }
