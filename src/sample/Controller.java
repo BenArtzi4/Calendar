@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.GridPane;
 
@@ -35,14 +36,26 @@ public class Controller{
     final int MAX_WEEKS = 6;
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
+    final int BUTTON_SIZE = 70;
+
     int currentMonth;
     int currentYear;
 
+    @FXML
+    private Label dateLabel;
 
     @FXML
     void setMonthPressed(ActionEvent event) {
 
     }
+
+    @FXML
+    private Label yearLabel;
+
+    @FXML
+    private Label monthLabel;
+
+
 
     @FXML
     void setYearPressed(ActionEvent event) {
@@ -60,6 +73,7 @@ public class Controller{
         monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
         initializeDays();
+        updateLabel();
 
 
 
@@ -71,6 +85,7 @@ public class Controller{
                 System.out.println(currentYear);
                 calendar.setYear(currentYear);
                 updateDays();
+                updateLabel();
             }
         });
 
@@ -84,6 +99,7 @@ public class Controller{
                 System.out.println(currentMonth);
                 calendar.setMonth(currentMonth - 1);
                 updateDays();
+                updateLabel();
             }
         });
     }
@@ -172,6 +188,11 @@ public class Controller{
         }
     }
 
+    public void updateLabel()
+    {
+        dateLabel.setText("Month: " + (calendar.getMonth()+1) + "    Year: " + calendar.getYear());
+    }
+
     public void printStatus()
     {
         System.out.println(
@@ -179,8 +200,6 @@ public class Controller{
                         "\nThe year is: " + calendar.getYear() +
                 "\nThe date is: " + (calendar.getMonth()+1) + "." + calendar.getYear()
                 // + "\n the first day week on this month is: " + calendar.getFirstNumberOfDayInMonth()
-
-
 
         );
     }
