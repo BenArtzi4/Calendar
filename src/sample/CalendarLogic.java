@@ -1,5 +1,8 @@
 package sample;
 
+import javafx.event.ActionEvent;
+
+import javax.swing.*;
 import java.util.Calendar;
 
 public class CalendarLogic
@@ -66,6 +69,32 @@ public class CalendarLogic
         System.out.println("first week day of the month is: " + tempC.get(Calendar.DAY_OF_WEEK));
 
         return (tempC.get(Calendar.DAY_OF_WEEK));
+    }
+
+    public void addMeeting(ActionEvent actionEvent)
+    {
+        System.out.println(checkDayNumber(actionEvent));
+
+
+
+    }
+
+    public int checkDayNumber(ActionEvent actionEvent)
+    {
+        String fullString = actionEvent.getSource().toString();
+        int separatorIndex = fullString.indexOf("'") + 1 ;
+        String stringNum = fullString.substring(separatorIndex, fullString.length()-1);
+
+        /*
+        If the pressed button is empty we will return error message
+         */
+        if (stringNum.equals(""))
+        {
+            JOptionPane.showMessageDialog(null, "Wrong date pressed - Please choose valid day", "Wrong day", JOptionPane.ERROR_MESSAGE);
+            return -1;
+        }
+        //int pressedDay = Integer.parseInt(actionEvent.getSource().toString());
+        return Integer.parseInt(stringNum);
     }
 
 }

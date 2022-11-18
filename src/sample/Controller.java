@@ -5,6 +5,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -82,7 +83,6 @@ public class Controller{
             @Override
             public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
                 currentYear =  yearList.getSelectionModel().getSelectedItem();
-                System.out.println(currentYear);
                 calendar.setYear(currentYear);
                 updateDays();
                 updateLabel();
@@ -96,7 +96,6 @@ public class Controller{
             @Override
             public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
                 currentMonth =  monthList.getSelectionModel().getSelectedItem();
-                System.out.println(currentMonth);
                 calendar.setMonth(currentMonth - 1);
                 updateDays();
                 updateLabel();
@@ -136,6 +135,12 @@ public class Controller{
             {
                 dayBtns[i][j] = new Button();
                 dayBtns[i][j].setPrefSize (100,100);
+                dayBtns[i][j].setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        calendar.addMeeting(actionEvent);
+                    }
+                });
             }
         }
     }
