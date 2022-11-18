@@ -81,11 +81,13 @@ public class CalendarLogic
 
         if (currentDay != -1)
         {
+            date.set(Calendar.DAY_OF_MONTH, currentDay);
+
             /*
             option 0 = Add meeting
             option 1 = close
              */
-            String dayMeetings;
+            String dayMeetings = "";
             String[] responses = {"Edit", "Close"};
 
             if (!(meetings.containsKey(date)))
