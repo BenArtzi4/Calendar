@@ -23,11 +23,8 @@ public class Controller{
     private Canvas cnv;
 
     @FXML
-    ListView<String> monthList = new ListView<String>();
-    //ObservableList<String> months = FXCollections.observableArrayList (
-         //   "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-
-    String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    ListView<Integer> monthList = new ListView<Integer>();
+    ObservableList<Integer> months = FXCollections.observableArrayList();
 
 
     @FXML
@@ -42,7 +39,7 @@ public class Controller{
 
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
-    String currentMonth;
+    int currentMonth;
     int currentYear;
 
 
@@ -56,26 +53,49 @@ public class Controller{
 
     }
 
+    CalendarLogic calendar = new CalendarLogic();
+
     public void initialize()
     {
-        monthList.getItems().addAll(months);
         initializeYearsList();
+        initializeMonthsList();
+        monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
+
 
         yearList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
             @Override
             public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
-                System.out.println("hello");
+                currentYear =  yearList.getSelectionModel().getSelectedItem();
+                System.out.println(currentYear);
+                calendar.setYear(currentYear);
+            }
+        });
+
+        monthList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observableValue, Integer integer, Integer t1) {
+                currentMonth =  monthList.getSelectionModel().getSelectedItem();
+                System.out.println(currentMonth);
+                calendar.setMonth(currentMonth);
             }
         });
     }
 
 
-        private void initializeYearsList()
+    private void initializeYearsList()
     {
         for (int i = INITIAL_YEAR ; i <= FINAL_YEAR ; i++ )
         {
             years.add(i);
+        }
+    }
+
+    private void initializeMonthsList()
+    {
+        for (int i = 1 ; i <= 12 ; i++ )
+        {
+            months.add(i);
         }
     }
 }
