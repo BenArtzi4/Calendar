@@ -6,18 +6,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 public class Controller{
 
@@ -55,7 +47,7 @@ public class Controller{
 
     }
 
-    Button  [][] dayBtn = new Button[6][7];
+    Button  [][] dayBtns = new Button[6][7];
 
     CalendarLogic calendar = new CalendarLogic();
 
@@ -66,6 +58,12 @@ public class Controller{
         monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
         initializeDays();
+        System.out.println(calendar.toString());
+        calendar.getYear();
+        calendar.getMonth();
+        calendar.getWeekOfMonth();
+        calendar.getDayOfWeek();
+        calendar.getDayOfMonth();
 
 
         yearList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
@@ -106,11 +104,30 @@ public class Controller{
 
     public void initializeDays()
     {
-        for (int i = 0 ; i < dayBtn.length ; i++ )
+        initializeButtons();
+        addButtonsToGridPane();
+
+    }
+
+    public void initializeButtons()
+    {
+        for (int i = 0; i < dayBtns.length ; i++ )
         {
-            for (int j = 0 ; j < dayBtn[0].length ; j++)
+            for (int j = 0; j < dayBtns[0].length ; j++)
             {
-                dayBtn[i][j] = new Button();
+                dayBtns[i][j] = new Button();
+                dayBtns[i][j].setPrefSize (100,100);
+            }
+        }
+    }
+
+    public void addButtonsToGridPane()
+    {
+        for (int i = 0; i < dayBtns.length ; i++ )
+        {
+            for (int j = 0; j < dayBtns[0].length ; j++)
+            {
+                days.add(dayBtns[i][j], i, j);
             }
         }
     }
