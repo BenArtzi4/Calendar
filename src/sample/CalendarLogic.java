@@ -10,13 +10,13 @@ import java.util.HashMap;
 public class CalendarLogic
 {
     Calendar date;
-    HashMap<Calendar, ArrayList<String>> meetings;
+    HashMap<Calendar, String> meetings;
 
     public CalendarLogic()
     {
         this.date = Calendar.getInstance();
         date.setFirstDayOfWeek(Calendar.SUNDAY);
-        meetings = new HashMap<Calendar, ArrayList<String>>();
+        meetings = new HashMap<Calendar, String>();
     }
 
     public void setMonth(int month)
@@ -86,28 +86,28 @@ public class CalendarLogic
             option 1 = close
              */
             String dayMeetings;
-            if (meetings.containsKey(date))
+            String[] responses = {"Edit", "Close"};
+
+            if (!(meetings.containsKey(date)))
             {
-                dayMeetings = returnAllMeeting(meetings.get(date));
+                meetings.put(date, "");
+                dayMeetings = "";
             }
             else
             {
-                dayMeetings = "";
+                dayMeetings = meetings.get(date);
             }
-            int meetingSetOption =JOptionPane.showConfirmDialog(null,  returnStringDate(currentDay) + "Meetings on this day:\n"
-                    +  dayMeetings + "\n" + "Would you like to set new meeting?", "Calendar", JOptionPane.YES_NO_OPTION);
+            int meetingSetOption =JOptionPane.showOptionDialog(null,  returnStringDate(currentDay) + "Meetings on this day:\n"
+                    +  dayMeetings + "\n" + "Would you like to edit meetings?\n", "Calendar",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    responses,
+                    0);
             if (meetingSetOption == 0)
             {
                 String appointment = JOptionPane.showInputDialog ("Enter the meeting information");
-                /*
-                if this date not exists we will add his ArrayList
-                 */
-                if (!(meetings.containsKey(date)))
-                {
-                    meetings.put(this.date, new ArrayList<String>());
-                }
-
-                    meetings.get(date).add(appointment);
+                meetings.put(date, appointment);
             }
         }
     }
@@ -135,13 +135,4 @@ public class CalendarLogic
         return ("Date: " + day + "." + this.date.get(Calendar.MONTH) + "." + this.date.get(Calendar.YEAR) + "\n");
     }
 
-    public String returnAllMeeting(ArrayList<String> tempMeeting)
-    {
-        String allMeetings = "";
-        for (int i = 0 ; i < tempMeeting.size() ; i ++)
-        {
-            allMeetings = allMeetings.concat(tempMeeting.get(i) + "\n");
-        }
-        return allMeetings;
-    }
 }
