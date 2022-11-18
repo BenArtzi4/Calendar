@@ -170,11 +170,23 @@ public class Controller{
         for (int i = 1 ; i <= calendar.getNumberOfDays() ; i++)
         {
             dayBtns[row][column].setText(i + "");
+            dayBtns[row][column].setDisable(false);
             column ++;
             if (column == DAYS_IN_WEEK)
             {
                 column = 0;
                 row++;
+            }
+        }
+
+        for (int i = 0; i < dayBtns.length ; i++ )
+        {
+            for (int j = 0; j < dayBtns[0].length ; j++)
+            {
+                if (dayBtns[i][j].getText().equals(""))
+                {
+                    dayBtns[i][j].setDisable(true);
+                }
             }
         }
     }

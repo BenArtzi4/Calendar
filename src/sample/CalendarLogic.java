@@ -7,11 +7,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
+
+/*
+The logic of calendar with the option to set the month, year and day.
+In addition, appointments can be added to the calendar, viewed and edited
+ */
 public class CalendarLogic
 {
+    // A calendar type object that represents a specific day
     Calendar date;
+
+    // Generic object to save the meetings
     HashMap<Calendar, String> meetings;
 
+    /*
+    A constructor that initializes the day to be the current day
+     */
     public CalendarLogic()
     {
         this.date = Calendar.getInstance();
@@ -19,40 +30,41 @@ public class CalendarLogic
         meetings = new HashMap<Calendar, String>();
     }
 
-    public void setMonth(int month)
-    {
-        this.date.set(Calendar.MONTH, month);
-    }
-
+    /*
+    Change the displayed year
+     */
     public void setYear(int year)
     {
         this.date.set(Calendar.YEAR, year);
     }
 
+    /*
+    Change the displayed month
+     */
+    public void setMonth(int month)
+    {
+        this.date.set(Calendar.MONTH, month);
+    }
+
+    /*
+    Get the displayed year
+     */
     public int getYear()
     {
         return this.date.get(Calendar.YEAR);
     }
 
+    /*
+    Change the displayed month
+     */
     public int getMonth()
     {
         return (this.date.get(Calendar.MONTH));
     }
 
-    public int getWeekOfMonth()
-    {
-        return this.date.get(Calendar.WEEK_OF_MONTH);
-    }
-
-    public int getDayOfWeek()
-    {
-        return this.date.get(Calendar.DAY_OF_WEEK);
-    }
-
-    public int getDayOfMonth()
-    {
-        return this.date.get(Calendar.DAY_OF_MONTH);
-    }
+    /*
+    Get the number of days in the displayed month
+     */
     public int getNumberOfDays()
     {
         return date.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -69,16 +81,22 @@ public class CalendarLogic
         tempC.set(Calendar.YEAR, date.get(Calendar.YEAR));
         tempC.set(Calendar.MONTH, date.get(Calendar.MONTH));
         tempC.set(Calendar.DAY_OF_MONTH, 1);
-        System.out.println("temp date is: " + tempC.get(Calendar.DAY_OF_MONTH) +   "." + (tempC.get(Calendar.MONTH)+1) + "." + tempC.get(Calendar.YEAR));
-        System.out.println("first week day of the month is: " + tempC.get(Calendar.DAY_OF_WEEK));
-
         return (tempC.get(Calendar.DAY_OF_WEEK));
     }
 
+    /*
+    Adding or editing a meeting that takes place on the day you clicked
+     */
     public void addMeeting(ActionEvent actionEvent)
     {
+        /*
+        Checking whether meetings have already been scheduled on the chosen day
+         */
         int currentDay = checkDayNumber(actionEvent);
 
+        /*
+        If a meeting has not been scheduled yet, then we will add the date to the hashmap of the meetings
+         */
         if (currentDay != -1)
         {
             date.set(Calendar.DAY_OF_MONTH, currentDay);
@@ -90,6 +108,9 @@ public class CalendarLogic
             String dayMeetings = "";
             String[] responses = {"Edit", "Close"};
 
+            /*
+            Checking whether a meeting has been scheduled on the chosen day
+             */
             if (!(meetings.containsKey(date)))
             {
                 meetings.put(date, "");
