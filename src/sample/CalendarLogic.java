@@ -20,18 +20,11 @@ public class CalendarLogic
     public void setMonth(int month)
     {
         this.date.set(Calendar.MONTH, month);
-        refreshTable();
     }
 
     public void setYear(int year)
     {
         this.date.set(Calendar.YEAR, year);
-        refreshTable();
-    }
-
-    public void refreshTable()
-    {
-        System.out.println("refreshing calendar");
     }
 
     public int getYear()
@@ -62,6 +55,24 @@ public class CalendarLogic
     {
         System.out.println("DayOfMonth: " + this.date.get(Calendar.DAY_OF_MONTH));
         return this.date.get(Calendar.DAY_OF_MONTH);
+    }
+    public int getNumberOfDays()
+    {
+        System.out.println("number of day in this month: " + date.getActualMaximum(Calendar.DAY_OF_MONTH));
+        return date.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    /*
+    Returns the week day of the first day in month.
+    Example: the first day of 10.2022 is Tuesday so it will return 3
+     */
+    public int getFirstNumberOfDayInMonth()
+    {
+        Calendar tempC = Calendar.getInstance();
+        tempC.set(Calendar.YEAR, date.get(Calendar.YEAR));
+        tempC.set(Calendar.MONTH, date.get(Calendar.MONTH));
+        tempC.set(Calendar.DAY_OF_MONTH, 1);
+        return tempC.get(Calendar.DAY_OF_WEEK);
     }
 
 }

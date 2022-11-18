@@ -31,6 +31,8 @@ public class Controller{
     @FXML
     private GridPane days;
 
+    final int DAYS_IN_WEEK = 7;
+    final int MAx_WEEKS = 6;
     final int INITIAL_YEAR = 1990;
     final int FINAL_YEAR = 2050;
     int currentMonth;
@@ -47,7 +49,7 @@ public class Controller{
 
     }
 
-    Button  [][] dayBtns = new Button[6][7];
+    Button  [][] dayBtns = new Button[MAx_WEEKS][DAYS_IN_WEEK];
 
     CalendarLogic calendar = new CalendarLogic();
 
@@ -58,12 +60,16 @@ public class Controller{
         monthList.getItems().addAll(months);
         yearList.getItems().addAll(years);
         initializeDays();
-        System.out.println(calendar.toString());
+        updateDays();
+
+        System.out.println("first WEEK-day of th month:");
+        System.out.println(calendar.getFirstNumberOfDayInMonth());
         calendar.getYear();
         calendar.getMonth();
         calendar.getWeekOfMonth();
         calendar.getDayOfWeek();
         calendar.getDayOfMonth();
+
 
 
         yearList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Integer>() {
@@ -127,7 +133,27 @@ public class Controller{
         {
             for (int j = 0; j < dayBtns[0].length ; j++)
             {
-                days.add(dayBtns[i][j], i, j);
+                days.add(dayBtns[i][j], j, i);
+            }
+        }
+    }
+
+    /*
+    Update the number of days on the calendar table
+     */
+    public void updateDays()
+    {
+        int row = 0;
+        int column = calendar.getFirstNumberOfDayInMonth();
+
+        for (int i = 1 ; i <= calendar.getNumberOfDays() ; i++)
+        {
+            dayBtns[row][column].setText(i + "");
+            column ++;
+            if (column == DAYS_IN_WEEK)
+            {
+                column = 0;
+                row++;
             }
         }
     }
