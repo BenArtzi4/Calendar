@@ -3,18 +3,20 @@ package sample;
 import javafx.event.ActionEvent;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 public class CalendarLogic
 {
     Calendar date;
-    HashMap<String, String> meetings = new HashMap<String, String>();
+    HashMap<Calendar, ArrayList<String>> meetings;
 
     public CalendarLogic()
     {
         this.date = Calendar.getInstance();
         date.setFirstDayOfWeek(Calendar.SUNDAY);
+        meetings = new HashMap<Calendar, ArrayList<String>>();
     }
 
     public void setMonth(int month)
@@ -75,10 +77,39 @@ public class CalendarLogic
 
     public void addMeeting(ActionEvent actionEvent)
     {
-        System.out.println(checkDayNumber(actionEvent));
+        int currentDay = checkDayNumber(actionEvent);
 
+        if (currentDay != -1)
+        {
+            /*
+            option 0 = Add meeting
+            option 1 = close
+             */
+            String dayMeetings;
+            if (meetings.containsKey(date))
+            {
+                dayMeetings = returnAllMeeting(meetings.get(date));
+            }
+            else
+            {
+                dayMeetings = "";
+            }
+            int meetingSetOption =JOptionPane.showConfirmDialog(null,  returnStringDate(currentDay) + "Meetings on this day:\n"
+                    +  dayMeetings + "\n" + "Would you like to set new meeting?", "Calendar", JOptionPane.YES_NO_OPTION);
+            if (meetingSetOption == 0)
+            {
+                String appointment = JOptionPane.showInputDialog ("Enter the meeting information");
+                /*
+                if this date not exists we will add his ArrayList
+                 */
+                if (!(meetings.containsKey(date)))
+                {
+                    meetings.put(this.date, new ArrayList<String>());
+                }
 
-
+                    meetings.get(date).add(appointment);
+            }
+        }
     }
 
     public int checkDayNumber(ActionEvent actionEvent)
@@ -99,4 +130,18 @@ public class CalendarLogic
         return Integer.parseInt(stringNum);
     }
 
+    public String returnStringDate(int day)
+    {
+        return ("Date: " + day + "." + this.date.get(Calendar.MONTH) + "." + this.date.get(Calendar.YEAR) + "\n");
+    }
+
+    public String returnAllMeeting(ArrayList<String> tempMeeting)
+    {
+        String allMeetings = "";
+        for (int i = 0 ; i < tempMeeting.size() ; i ++)
+        {
+            allMeetings = allMeetings.concat(tempMeeting.get(i) + "\n");
+        }
+        return allMeetings;
+    }
 }
