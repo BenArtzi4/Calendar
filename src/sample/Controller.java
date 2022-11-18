@@ -179,13 +179,10 @@ public class Controller{
             }
         }
 
-        for (int i = 0; i < dayBtns.length ; i++ )
-        {
-            for (int j = 0; j < dayBtns[0].length ; j++)
-            {
-                if (dayBtns[i][j].getText().equals(""))
-                {
-                    dayBtns[i][j].setDisable(true);
+        for (Button[] dayBtn : dayBtns) {
+            for (int j = 0; j < dayBtns[0].length; j++) {
+                if (dayBtn[j].getText().equals("")) {
+                    dayBtn[j].setDisable(true);
                 }
             }
         }

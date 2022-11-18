@@ -89,73 +89,74 @@ public class CalendarLogic
      */
     public void addMeeting(ActionEvent actionEvent)
     {
-        /*
-        Checking whether meetings have already been scheduled on the chosen day
-         */
+
+        //Returns the day number in the month of the selected day
+
         int currentDay = checkDayNumber(actionEvent);
 
+        // Enter the day that is the current date
+        date.set(Calendar.DAY_OF_MONTH, currentDay);
+
+        // A variable containing the daily meeting details
+        String dayMeetings;
+
+
         /*
-        If a meeting has not been scheduled yet, then we will add the date to the hashmap of the meetings
+        Checking whether a meeting has been scheduled on the chosen day
          */
-        if (currentDay != -1)
+        if (!(meetings.containsKey(date)))
         {
-            date.set(Calendar.DAY_OF_MONTH, currentDay);
-
-            /*
-            option 0 = Add meeting
-            option 1 = close
-             */
-            String dayMeetings = "";
-            String[] responses = {"Edit", "Close"};
-
-            /*
-            Checking whether a meeting has been scheduled on the chosen day
-             */
-            if (!(meetings.containsKey(date)))
-            {
-                meetings.put(date, "");
-                dayMeetings = "";
-            }
-            else
-            {
-                dayMeetings = meetings.get(date);
-            }
-            int meetingSetOption =JOptionPane.showOptionDialog(null,  returnStringDate(currentDay) + "Meetings on this day:\n"
-                    +  dayMeetings + "\n" + "Would you like to edit meetings?\n", "Calendar",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    responses,
-                    0);
-            if (meetingSetOption == 0)
-            {
-                String appointment = JOptionPane.showInputDialog ("Enter the meeting information");
-                meetings.put(date, appointment);
-            }
+            meetings.put(date, "");
+            dayMeetings = "";
         }
+        else
+        {
+            dayMeetings = meetings.get(date);
+        }
+
+        // Showing the meetings to the user and giving the possibility to edit or add
+        String[] responses = {"Edit", "Close"};
+        int meetingSetOption =JOptionPane.showOptionDialog(null,  returnStringDate(currentDay) + "Meetings on this day:\n"
+                +  dayMeetings + "\n" + "Would you like to edit meetings?\n", "Calendar",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                responses,
+                0);
+
+        // Option to edit the meetings if the user chooses you
+        if (meetingSetOption == 0)
+        {
+            String appointment = JOptionPane.showInputDialog ("Enter the meeting information");
+            meetings.put(date, appointment);
+        }
+
     }
 
+    /*
+    A method that returns the number of the day in the month of the selected day
+     */
     public int checkDayNumber(ActionEvent actionEvent)
     {
         String fullString = actionEvent.getSource().toString();
         int separatorIndex = fullString.indexOf("'") + 1 ;
         String stringNum = fullString.substring(separatorIndex, fullString.length()-1);
 
-        /*
-        If the pressed button is empty we will return error message
-         */
+
+        // If the pressed button is empty we will return error message
         if (stringNum.equals(""))
         {
             JOptionPane.showMessageDialog(null, "Wrong date pressed - Please choose valid day", "Wrong day", JOptionPane.ERROR_MESSAGE);
             return -1;
         }
-        //int pressedDay = Integer.parseInt(actionEvent.getSource().toString());
         return Integer.parseInt(stringNum);
     }
 
+    /*
+    A method that returns as a string the month and year displayed to the user
+     */
     public String returnStringDate(int day)
     {
         return ("Date: " + day + "." + this.date.get(Calendar.MONTH) + "." + this.date.get(Calendar.YEAR) + "\n");
     }
-
 }
