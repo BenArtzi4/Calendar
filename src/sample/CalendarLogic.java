@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 
 import javax.swing.*;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class CalendarLogic
 {
     Calendar date;
+    HashMap<String, String> meetings = new HashMap<String, String>();
 
     public CalendarLogic()
     {
