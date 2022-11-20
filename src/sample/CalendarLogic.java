@@ -72,14 +72,14 @@ public class CalendarLogic
     /*
     Returns the week day of the first day in month.
     Example: the first day of 10.2022 is Tuesday so it will return 3
-     Added one
      */
     public int getFirstNumberOfDayInMonth()
     {
+        final int FIRST_DAY = 1;
         Calendar tempC = Calendar.getInstance();
         tempC.set(Calendar.YEAR, date.get(Calendar.YEAR));
         tempC.set(Calendar.MONTH, date.get(Calendar.MONTH));
-        tempC.set(Calendar.DAY_OF_MONTH, 1);
+        tempC.set(Calendar.DAY_OF_MONTH, FIRST_DAY);
         return (tempC.get(Calendar.DAY_OF_WEEK));
     }
 
@@ -92,6 +92,7 @@ public class CalendarLogic
         //Returns the day number in the month of the selected day
 
         int currentDay = checkDayNumber(actionEvent);
+        final int ADD_MEETING = 0;
 
         // Enter the day that is the current date
         date.set(Calendar.DAY_OF_MONTH, currentDay);
@@ -121,10 +122,10 @@ public class CalendarLogic
                 JOptionPane.INFORMATION_MESSAGE,
                 null,
                 responses,
-                0);
+                ADD_MEETING);
 
         // Option to edit the meetings if the user chooses you
-        if (meetingSetOption == 0)
+        if (meetingSetOption == ADD_MEETING)
         {
             String appointment = JOptionPane.showInputDialog ("Enter the meeting information");
             meetings.put(date, appointment);
@@ -139,6 +140,7 @@ public class CalendarLogic
     {
         String fullString = actionEvent.getSource().toString();
         int separatorIndex = fullString.indexOf("'") + 1 ;
+        final int ERROR = -1;
         String stringNum = fullString.substring(separatorIndex, fullString.length()-1);
 
 
@@ -146,7 +148,7 @@ public class CalendarLogic
         if (stringNum.equals(""))
         {
             JOptionPane.showMessageDialog(null, "Wrong date pressed - Please choose valid day", "Wrong day", JOptionPane.ERROR_MESSAGE);
-            return -1;
+            return ERROR;
         }
         return Integer.parseInt(stringNum);
     }
@@ -156,6 +158,8 @@ public class CalendarLogic
      */
     public String returnStringDate(int day)
     {
-        return ("Date: " + day + "." + this.date.get(Calendar.MONTH) + "." + this.date.get(Calendar.YEAR) + "\n");
+        // Because months in calendar starts from 0 we need to add 1 when we print it
+        final int DIFF = 1;
+        return ("Date: " + day + "." + (this.date.get(Calendar.MONTH)+DIFF) + "." + this.date.get(Calendar.YEAR) + "\n");
     }
 }
